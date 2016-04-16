@@ -139,17 +139,17 @@ $admin_list = getAdminList();
               </a>
               <ul class="treeview-menu">
                 <li class="active"><a href="kelola_admin.php"><i class="fa fa-circle-o"></i> Admin</a></li>
-                <li><a href="#"><i class="fa fa-circle-o"></i> Dosen</a></li>
-                <li><a href="#"><i class="fa fa-circle-o"></i> Mahasiswa</a></li>
+                <li><a href="kelola_dosen.php"><i class="fa fa-circle-o"></i> Dosen</a></li>
+                <li><a href="kelola_mahasiswa.php"><i class="fa fa-circle-o"></i> Mahasiswa</a></li>
               </ul>
             </li>
             <li>
-              <a href="#">
+              <a href="kelola_kelas.php">
                 <i class="fa fa-th"></i> <span>Pengelolaan Kelas</span>
               </a>
             </li>
             <li>
-              <a href="#">
+              <a href="kelola_matkul.php">
                 <i class="fa fa-files-o"></i> <span>Pengelolaan Mata Kuliah</span>
               </a>
             </li>
@@ -219,7 +219,6 @@ $admin_list = getAdminList();
                         <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
                     </div>
                   </div>
-                  <div class="box-body">
                     <form role="form" method="post" action="admin.php">
                       <div class="box-body">
                         <div class="form-group">
@@ -245,7 +244,6 @@ $admin_list = getAdminList();
                         <button type="submit" class="btn btn-danger pull-right" name="update_user">Update</button>
                       </div>
                     </form>
-                  </div><!-- /.box-body -->
               </div><!-- /.box -->
             </div>
             

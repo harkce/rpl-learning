@@ -124,17 +124,17 @@ if ($_SESSION['usertype'] != 'admin') {
               </a>
               <ul class="treeview-menu">
                 <li><a href="kelola_admin.php"><i class="fa fa-circle-o"></i> Admin</a></li>
-                <li><a href="#"><i class="fa fa-circle-o"></i> Dosen</a></li>
-                <li><a href="#"><i class="fa fa-circle-o"></i> Mahasiswa</a></li>
+                <li><a href="kelola_dosen.php"><i class="fa fa-circle-o"></i> Dosen</a></li>
+                <li><a href="kelola_mahasiswa.php"><i class="fa fa-circle-o"></i> Mahasiswa</a></li>
               </ul>
             </li>
             <li>
-              <a href="#">
+              <a href="kelola_kelas.php">
                 <i class="fa fa-th"></i> <span>Pengelolaan Kelas</span>
               </a>
             </li>
             <li>
-              <a href="#">
+              <a href="kelola_matkul.php">
                 <i class="fa fa-files-o"></i> <span>Pengelolaan Mata Kuliah</span>
               </a>
             </li>

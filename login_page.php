@@ -36,8 +36,8 @@
   <body class="hold-transition login-page">
   	<br>
     <?php if ($error != ''): ?>
-    <div class="col-xs-4"></div>
-    <div class="col-xs-4">
+    <div class="col-xs-1 col-sm-3 col-md-4 col-lg-4"></div>
+    <div class="col-xs-10 col-sm-6 col-md-4 col-lg-4">
       <div class="alert alert-danger alert-dismissable">
         <h4><i class="icon fa fa-ban"></i> Login Gagal!</h4>
         <?php echo $error; ?>

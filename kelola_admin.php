@@ -136,17 +136,17 @@ $admin_list = getAdminList();
               </a>
               <ul class="treeview-menu">
                 <li class="active"><a href="kelola_admin.php"><i class="fa fa-circle-o"></i> Admin</a></li>
-                <li><a href="#"><i class="fa fa-circle-o"></i> Dosen</a></li>
-                <li><a href="#"><i class="fa fa-circle-o"></i> Mahasiswa</a></li>
+                <li><a href="kelola_dosen.php"><i class="fa fa-circle-o"></i> Dosen</a></li>
+                <li><a href="kelola_mahasiswa.php"><i class="fa fa-circle-o"></i> Mahasiswa</a></li>
               </ul>
             </li>
             <li>
-              <a href="#">
+              <a href="kelola_kelas.php">
                 <i class="fa fa-th"></i> <span>Pengelolaan Kelas</span>
               </a>
             </li>
             <li>
-              <a href="#">
+              <a href="kelola_matkul.php">
                 <i class="fa fa-files-o"></i> <span>Pengelolaan Mata Kuliah</span>
               </a>
             </li>
@@ -208,33 +208,31 @@ $admin_list = getAdminList();
         	<div class="row">
         		<div class="col-lg-6">
         			<div class="box box-danger">
-			            <div class="box-header with-border">
-			            	<h3 class="box-title">Tambah Admin</h3>
-			            	<div class="box-tools pull-right">
-				                <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
-			            	</div>
-			            </div>
-			            <div class="box-body">
-			            	<form role="form" method="post" action="admin.php">
-			            		<div class="box-body">
-			            			<div class="form-group">
-			            				<label>Nama Lengkap</label>
-			            				<input type="text" class="form-control" name="fullname" placeholder="Masukkan nama lengkap">
-			                    	</div>
-				                    <div class="form-group">
-				                    	<label>Username</label>
-				                    	<input type="text" class="form-control" name="username" placeholder="Username untuk login">
-				                    </div>
-				                    <div class="form-group">
-				                    	<label>Password</label>
-				                    	<input type="password" class="form-control" name="password" placeholder="Password">
-				                    </div>
-			                	</div><!-- /.box-body -->
-				                <div class="box-footer">
-				                	<button type="submit" class="btn btn-danger pull-right" name="insert_user">Tambah</button>
-				                </div>
-			                </form>
-			            </div><!-- /.box-body -->
+			          <div class="box-header with-border">
+			          	<h3 class="box-title">Tambah Admin</h3>
+			          	<div class="box-tools pull-right">
+				            <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
+			          	</div>
+			          </div>
+			          	<form role="form" method="post" action="admin.php">
+			          		<div class="box-body">
+			          			<div class="form-group">
+			          				<label>Nama Lengkap</label>
+			          				<input type="text" class="form-control" name="fullname" placeholder="Masukkan nama lengkap">
+			                </div>
+				              <div class="form-group">
+				                <label>Username</label>
+				                <input type="text" class="form-control" name="username" placeholder="Username untuk login">
+				              </div>
+				              <div class="form-group">
+				                <label>Password</label>
+				                <input type="password" class="form-control" name="password" placeholder="Password">
+				              </div>
+			              </div><!-- /.box-body -->
+				            <div class="box-footer">
+				              <button type="submit" class="btn btn-danger pull-right" name="insert_user">Tambah</button>
+				            </div>
+			            </form>
 			        </div><!-- /.box -->
         		</div>
         		
