@@ -28,6 +28,15 @@ if (isset($_POST['submit'])) {
 				$_SESSION['nip'] = $row['nip'];
 				$_SESSION['matkul'] = $row['namamatkul'];
 			}
+
+			if ($_SESSION['usertype'] == 'mahasiswa') {
+				$query = "SELECT nim, namakelas FROM user JOIN mahasiswa USING (id) JOIN kelas ON (mahasiswa.kelas = kelas.id) WHERE username = '$username'";
+				$result = $connection->query($query);
+				$row = $result->fetch_assoc();
+				$_SESSION['nim'] = $row['nim'];
+				$_SESSION['kelas'] = $row['namakelas'];
+			}
+
 			// Redirect ke halaman utama
 			header("location: home.php");
 			// echo "sukses"; die();

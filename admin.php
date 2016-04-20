@@ -71,3 +71,15 @@ if (isset($_POST['update_kelas'])) {
 if (isset($_POST['insert_mahasiswa'])) {
 	insertMahasiswa();
 }
+
+if (isset($_POST['edit_mahasiswa'])) {
+	setEditMahasiswa();
+}
+
+if (isset($_POST['delete_mhs'])) {
+	deleteMahasiswa();
+}
+
+if (isset($_POST['update_mahasiswa'])) {
+	updateMahasiswa();
+}

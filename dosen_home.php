@@ -134,7 +134,7 @@ if ($_SESSION['usertype'] != 'dosen') {
             </li>
             <li class="header">Laporan</li>
             <li>
-              <a href="#">
+              <a href="dosen_laporanhadir.php">
                 <i class="fa fa-users"></i> <span>Kehadiran Mahasiswa</span>
               </a>
             </li>

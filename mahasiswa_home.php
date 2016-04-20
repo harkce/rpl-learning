@@ -1,19 +1,18 @@
 <?php
-include 'dosen.php';
+session_start();
 if ($_SESSION['logged_in'] != 1) {
   header("location: login_page.php");
 }
-if ($_SESSION['usertype'] != 'dosen') {
+if ($_SESSION['usertype'] != 'mahasiswa') {
   header("location: home.php");
 }
-$materi_list = getMateriList();
 ?>
 <!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>RPL Learning | Materi - <?php echo $_SESSION['matkul']; ?></title>
+    <title>RPL Learning | Beranda</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.5 -->
@@ -22,8 +21,6 @@ $materi_list = getMateriList();
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
     <!-- Ionicons -->
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-    <!-- DataTables -->
-    <link rel="stylesheet" href="plugins/datatables/dataTables.bootstrap.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="dist/css/AdminLTE.min.css">
     <!-- AdminLTE Skins. Choose a skin from the css/skins
@@ -36,16 +33,6 @@ $materi_list = getMateriList();
         <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
         <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
-
-    <!-- page style -->
-    <style type="text/css">
-      .noline {
-        display:inline;
-        margin:0px;
-        padding:0px;
-      }
-    </style>
-
   </head>
   <body class="hold-transition skin-red sidebar-mini">
     <!-- Site wrapper -->
@@ -82,7 +69,7 @@ $materi_list = getMateriList();
                     <img src="dist/img/userimage.png" class="img-circle" alt="User Image">
                     <p>
                       <?php echo $_SESSION['fullname']; ?>
-                      <small><?php echo ucfirst($_SESSION['nip']); ?></small>
+                      <small><?php echo ucfirst($_SESSION['nim']); ?></small>
                     </p>
                   </li>
                   <!-- Menu Footer-->
@@ -118,21 +105,26 @@ $materi_list = getMateriList();
             </div>
             <div class="pull-left info">
               <p><?php echo $_SESSION['fullname']; ?></p>
-              <a href="#"><i class="fa fa-circle text-success"></i> <?php echo ucfirst($_SESSION['usertype']) . " - " . $_SESSION['nip'];?></a>
+              <a href="#"><i class="fa fa-circle text-success"></i> <?php echo ucfirst($_SESSION['usertype']) . " - " . $_SESSION['nim'];?></a>
             </div>
           </div>
           <!-- sidebar menu: : style can be found in sidebar.less -->
           <ul class="sidebar-menu">
             <li class="header">Menu</li>
-            <li>
+            <li class="active">
               <a href="home.php">
                 <i class="fa fa-home"></i> <span>Beranda</span>
               </a>
             </li>
-            <li class="active">
-              <a href="#">
-                <i class="fa fa-file-o"></i>
-                <span>Materi</span>
+            <li>
+              <a href="mhs_matkul.php">
+                <i class="fa fa-sign-in"></i>
+                <span>Registrasi Mata Kuliah</span>
+              </a>
+            </li>
+            <li>
+              <a href="mhs_materi.php">
+                <i class="fa fa-file-o"></i> <span>Materi</span>
               </a>
             </li>
             <li>
@@ -147,7 +139,7 @@ $materi_list = getMateriList();
             </li>
             <li class="header">Laporan</li>
             <li>
-              <a href="dosen_laporanhadir.php">
+              <a href="#">
                 <i class="fa fa-users"></i> <span>Kehadiran Mahasiswa</span>
               </a>
             </li>
@@ -184,99 +176,19 @@ $materi_list = getMateriList();
         <!-- Content Header (Page header) -->
         <section class="content-header">
           <h1>
-            Materi - <?php echo $_SESSION['matkul']; ?>
+            Beranda
           </h1>
           <ol class="breadcrumb">
-            <li class="active"><a href="#"><i class="fa fa-file-o"></i> Materi</a></li>
+            <li class="active"><a href="#"><i class="fa fa-home"></i> Beranda</a></li>
           </ol>
         </section>
 
         <!-- Main content -->
         <section class="content">
 
-          <?php
-            if (isset($_SESSION['message']) && isset($_SESSION['type'])):
-            if ($_SESSION['type'] == "success"):
-          ?><div class="alert alert-success alert-dismissable">
+          <div class="alert alert-success alert-dismissable">
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-            <h4><i class="icon fa fa-check"></i> Sukses!</h4>
-            <?php echo $_SESSION['message']; ?>
-          </div><?php elseif ($_SESSION['message'] != ''): ?>
-          <div class="alert alert-danger alert-dismissable">
-            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-            <h4><i class="icon fa fa-ban"></i> Peringatan!</h4>
-            <?php echo $_SESSION['message']; ?>
-          </div>
-          <?php
-            endif;
-            unset($_SESSION['message']);
-            unset($_SESSION['type']);
-            endif;?>
-
-          <div class="row">
-            <!-- Kiri -->
-            <div class="col-lg-6">
-              <div class="box box-danger">
-                <div class="box-header with-border">
-                  <h3 class="box-title">Unggah Materi</h3>
-                  <div class="box-tools pull-right">
-                    <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"><i class="fa fa-minus"></i></button>
-                  </div>
-                </div>
-                <form role="form" method="post" action="dosen.php" enctype="multipart/form-data">
-                  <div class="box-body">
-                    <div class="form-group">
-                      <label>Nama Materi</label>
-                      <input type="text" class="form-control" name="nama_materi" placeholder="Masukkan nama materi">
-                    </div>
-                    <div class="form-group">
-                      <label>File Materi</label>
-                      <input type="file" name="file_materi" id="file_materi">
-                      <p class="help-block">Maks 50MB. Format file PDF, DOC, DOCX, PPT, PPTX, RAR, dan ZIP</p>
-                    </div>
-                  </div>
-                  <div class="box-footer">
-                    <button type="submit" class="btn btn-danger pull-right" name="insert_materi"><i class="fa fa-upload"></i> Unggah</button>
-                  </div>
-                </form>
-              </div>
-            </div>
-
-            <!-- Kanan -->
-            <div class="col-lg-6">
-              <div class="box box-danger">
-                <div class="box-header with-border">
-                  <h3 class="box-title">Daftar Materi</h3>
-                  <div class="box-tools pull-right">
-                    <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"><i class="fa fa-minus"></i></button>
-                  </div>
-                </div>
-                <div class="box-body">
-                  <table id="materidata" class="table table-bordered table-striped">
-                    <thead>
-                      <tr>
-                        <th>Nomor</th>
-                        <th>Nama Materi</th>
-                        <th>Aksi</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <?php $i = 1; while($row = $materi_list->fetch_assoc()): ?><tr>
-                        <th><?php echo $i; $i++; ?></th>
-                        <th><?php echo $row['nama']; ?></th>
-                        <th><a href="<?php echo 'materi/' . rawurlencode($row['filelocation']); ?>"><button class="btn btn-info"><i class="fa fa-download"></i></button></a>
-                          <form role="form" method="post" action="dosen.php" class="noline">
-                            <input type="hidden" name="materi_id" value="<?php echo $row['id'] ?>">
-                            <input type="hidden" name="file_location" value="<?php echo $row['filelocation']; ?>">
-                            <button type="submit" class="btn btn-danger" name="delete_materi"><i class="fa fa-trash"></i></button>
-                          </form>
-                        </th>
-                      </tr>
-                    <?php endwhile; ?></tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
+            <i class="icon fa fa-check"></i> Selamat datang, <b><?php echo $_SESSION['fullname']; ?></b>!
           </div>
 
         </section><!-- /.content -->
@@ -295,9 +207,6 @@ $materi_list = getMateriList();
     <script src="plugins/jQuery/jQuery-2.1.4.min.js"></script>
     <!-- Bootstrap 3.3.5 -->
     <script src="bootstrap/js/bootstrap.min.js"></script>
-    <!-- DataTables -->
-    <script src="plugins/datatables/jquery.dataTables.min.js"></script>
-    <script src="plugins/datatables/dataTables.bootstrap.min.js"></script>
     <!-- SlimScroll -->
     <script src="plugins/slimScroll/jquery.slimscroll.min.js"></script>
     <!-- FastClick -->
@@ -306,11 +215,5 @@ $materi_list = getMateriList();
     <script src="dist/js/app.min.js"></script>
     <!-- AdminLTE for demo purposes -->
     <script src="dist/js/demo.js"></script>
-    <!-- page script -->
-    <script>
-    $(function() {
-      $("#materidata").DataTable();
-    });
-    </script>
   </body>
 </html>

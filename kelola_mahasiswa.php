@@ -183,29 +183,30 @@ $mahasiswa_list = getMahasiswaList();
 
         <!-- Main content -->
         <section class="content">
+
         	<?php
         		if (isset($_SESSION['message']) && isset($_SESSION['type'])):
         		if ($_SESSION['type'] == "success"):
-			?>
+          ?>
         	<div class="alert alert-success alert-dismissable">
         		<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
         		<h4><i class="icon fa fa-check"></i> Sukses!</h4>
 		        <?php echo $_SESSION['message']; ?>
-			</div>
-			<?php elseif ($_SESSION['message'] != ''): ?>
-			<div class="alert alert-danger alert-dismissable">
+          </div>
+          <?php elseif ($_SESSION['message'] != ''): ?>
+          <div class="alert alert-danger alert-dismissable">
         		<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
         		<h4><i class="icon fa fa-ban"></i> Peringatan!</h4>
 		        <?php echo $_SESSION['message']; ?>
-			</div>
-			<?php
-				endif;
-				unset($_SESSION['message']);
-				unset($_SESSION['type']);
-				endif;
-			?>
+          </div>
+          <?php
+            endif;
+            unset($_SESSION['message']);
+            unset($_SESSION['type']);
+            endif;
+          ?>
 
-        	<div class="row">
+          <div class="row">
         		<div class="col-lg-6">
         			<div class="box box-danger">
 			          <div class="box-header with-border">
@@ -274,13 +275,13 @@ $mahasiswa_list = getMahasiswaList();
 			            					<form role="form" method="post" action="admin.php" class="noline">
 			            						<input type="hidden" name="id" value="<?php echo $row['id']; ?>">
 			            						<input type="hidden" name="fullname" value="<?echo $row['fullname']; ?>">
-                              <input type="hidden" name="nip" value="<?php echo $row['nip']; ?>">
+                              <input type="hidden" name="nim" value="<?php echo $row['nim']; ?>">
 			            						<input type="hidden" name="username" value="<?php echo $row['username']; ?>">
                               <input type="hidden" name="id_kelas" value="<?php echo $row['kelas']; ?>">
 			            						<button type="submit" class="btn btn-info" name="edit_mahasiswa"><i class="fa fa-edit"></i></button>
 			            					</form>
 			            					<form role="form" method="post" action="admin.php" class="noline">
-			            						<input type="hidden" name="delete_mahasiswa" value="<?php echo $row['username']; ?>">
+			            						<input type="hidden" name="delete_username" value="<?php echo $row['username']; ?>">
 				            					<button <?php if ($row['username'] == $_SESSION['login_user']) echo "disabled=" . '"true"' ?> type="submit" class="btn btn-danger" name="delete_user"><i class="fa fa-trash"></i></button>
                           					</form>
                           				</th>
@@ -290,7 +291,6 @@ $mahasiswa_list = getMahasiswaList();
 			            </div><!-- /.box-body -->
 			        </div><!-- /.box -->
         		</div>
-
         	</div>
 
         </section><!-- /.content -->

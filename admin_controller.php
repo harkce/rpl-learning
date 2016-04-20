@@ -85,12 +85,32 @@ function insertUser() {
 
 function deleteUser($username) {
 	$connection = getConnection();
+	$query = "SELECT usertype FROM user WHERE username='$username'";
+	$usertype = $connection->query($query);
+	$usertype = $usertype->fetch_assoc();
+	$usertype = $usertype['usertype'];
 	$query = "DELETE FROM user WHERE username='$username'";
 	$result = $connection->query($query);
 	$_SESSION['message'] = "User berhasil dihapus";
 	$_SESSION['type'] = "success";
 	closeConnection($connection);
-	header("location: kelola_admin.php");
+	switch ($usertype) {
+		case 1:
+			header("location: kelola_admin.php");
+			break;
+
+		case 2:
+			header("location: kelola_dosen.php");
+			break;
+
+		case 3:
+			header("location: kelola_mahasiswa.php");
+			break;
+		
+		default:
+			# code...
+			break;
+	}
 }
 
 function setEdit() {
@@ -112,7 +132,6 @@ function updateUser() {
 		header("location: edit_admin.php");
 	} elseif (empty($_POST['password'])) {
 		$query = "UPDATE user SET fullname='$fullname' WHERE id=$id";
-		echo $query;
 		$result = $connection->query($query);
 		$_SESSION['edit_fullname'] = $fullname;
 		$_SESSION['message'] = "User berhasil diupdate";
@@ -122,7 +141,6 @@ function updateUser() {
 		header("location: edit_admin.php");
 	} else {
 		$password = md5($_POST['password']);
-		print_r($_POST); die();
 		$query = "UPDATE user SET fullname='$fullname', password='$password' WHERE id=$id";
 		$result = $connection->query($query);
 		$_SESSION['message'] = "User berhasil diupdate";
@@ -340,7 +358,7 @@ function insertMahasiswa() {
 	$username = $_POST['username'];
 	$password = md5($_POST['password']);
 	$kelas = $_POST['kelas'];
-	if (empty($fullname) || empty($nip) || empty($username) || empty($password) || empty($nip)) {
+	if (empty($fullname) || empty($nim) || empty($username) || empty($password)) {
 		$_SESSION['message'] = "Form tidak boleh kosong";
 		$_SESSION['type'] = "error";
 		closeConnection($connection);
@@ -370,5 +388,45 @@ function insertMahasiswa() {
 			header("location: kelola_mahasiswa.php");
 			die();
 		}
+	}
+}
+
+function setEditMahasiswa() {
+	$_SESSION['editmhs_id'] = $_POST['id'];
+	$_SESSION['editmhs_fullname'] = $_POST['fullname'];
+	$_SESSION['editmhs_nim'] = $_POST['nim'];
+	$_SESSION['editmhs_username'] = $_POST['username'];
+	$_SESSION['editmhs_kls'] = $_POST['id_kelas'];
+	header("location: edit_mahasiswa.php");
+}
+
+function updateMahasiswa() {
+	if ($_POST['kelas'] == 'x' || empty($_POST['fullname']) || empty($_POST['nim'])) {
+		$_SESSION['message'] = "Form tidak boleh kosong";
+		$_SESSION['type'] = "error";
+		header("location: edit_mahasiswa.php");
+		die();
+	} else {
+		$id = $_POST['id'];
+		$fullname = $_POST['fullname'];
+		$nim = $_POST['nim'];
+		$kelas = $_POST['kelas'];
+		$_SESSION['editmhs_fullname'] = $fullname;
+		$_SESSION['editmhs_nim'] = $nim;
+		$_SESSION['editmhs_kls'] = $kelas;
+		$connection = getConnection();
+		if (!empty($_POST['password'])) {
+			$password = md5($_POST['password']);
+			$query = "UPDATE user SET password = '$password' WHERE id = $id";
+			$connection->query($query);
+		}
+		$query = "UPDATE user SET fullname = '$fullname' WHERE id = $id";
+		$connection->query($query);
+		$query = "UPDATE mahasiswa SET nim = '$nim', kelas = '$kelas' WHERE id = $id";
+		$connection->query($query);
+		closeConnection($connection);
+		$_SESSION['message'] = "Data mahasiswa berhasil diupdate";
+		$_SESSION['type'] = "success";
+		header("location: edit_mahasiswa.php");
 	}
 }
